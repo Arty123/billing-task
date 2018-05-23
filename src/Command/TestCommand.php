@@ -24,7 +24,7 @@ class TestCommand extends ContainerAwareCommand
             $testData = [
                 'recipientId' => rand(1, AccountFixtures::COUNT_ACCOUNTS),
                 OperationConstant::OPERATION_MSG_LABEL => OperationConstant::DEPOSIT,
-                'tid' => md5((string) time()),
+                'tid' => uniqid('', true),
                 'amount' => 1000,
             ];
             $this->getContainer()
@@ -40,7 +40,7 @@ class TestCommand extends ContainerAwareCommand
                 'recipientId' => rand(1, $firstHalfAccounts),
                 'senderId' => rand($secondHalfAccounts, AccountFixtures::COUNT_ACCOUNTS),
                 OperationConstant::OPERATION_MSG_LABEL => OperationConstant::DEBIT,
-                'tid' => md5((string) time()),
+                'tid' => uniqid('', true),
                 'amount' => 10,
             ];
             $this->getContainer()
@@ -54,7 +54,7 @@ class TestCommand extends ContainerAwareCommand
                 'senderId' => rand(1, $firstHalfAccounts),
                 OperationConstant::OPERATION_MSG_LABEL => OperationConstant::TRANSFER,
                 'amount' => 10,
-                'tid' => md5((string) time()),
+                'tid' => uniqid('', true),
             ];
             $this->getContainer()
                 ->get('old_sound_rabbit_mq.billing_producer')
