@@ -20,7 +20,7 @@ class TestCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        for ($i = 0; $i < 1; ++$i) {
+        for ($i = 0; $i < 20; ++$i) {
             $testData = [
                 'recipientId' => rand(1, AccountFixtures::COUNT_ACCOUNTS),
                 OperationConstant::OPERATION_MSG_LABEL => OperationConstant::DEPOSIT,
