@@ -41,7 +41,6 @@ services:
     app.consumer.deposit_operation:
         class: App\Consumer\Consumer
         arguments:
-            - '@old_sound_rabbit_mq.delay_send_billing_producer'
             - '@app.operation_factory'
             - '@App\Domain\Transaction\DepositTransaction'
             - '@logger'
@@ -49,7 +48,6 @@ services:
     app.consumer.debit_operation:
         class: App\Consumer\Consumer
         arguments:
-            - '@old_sound_rabbit_mq.delay_send_billing_producer'
             - '@app.operation_factory'
             - '@App\Domain\Transaction\DebitTransaction'
             - '@logger'
@@ -57,7 +55,6 @@ services:
     app.consumer.transfer_operation:
         class: App\Consumer\Consumer
         arguments:
-            - '@old_sound_rabbit_mq.delay_send_billing_producer'
             - '@app.operation_factory'
             - '@App\Domain\Transaction\TransferTransaction'
             - '@logger'
