@@ -21,9 +21,9 @@ class AccountRepository extends EntityRepository
     public function getAccountForUpdate(int $userId): ?Account
     {
         $qb = $this->createQueryBuilder('a')
-        ->select('a')
-        ->where('a.userId = :userId')
-        ->setParameter(':userId', $userId);
+            ->select('a')
+            ->where('a.userId = :userId')
+            ->setParameter(':userId', $userId);
 
         $qb = $qb->getQuery()->setLockMode(LockMode::PESSIMISTIC_WRITE);
 

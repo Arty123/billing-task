@@ -17,11 +17,50 @@ services:
         resource: '../src/*'
         exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller'
-        tags: ['controller.service_arguments']
-
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Domain\Transaction\DebitTransaction:
+        class: App\Domain\Transaction\DebitTransaction
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+
+    App\Domain\Transaction\TransferTransaction:
+        class: App\Domain\Transaction\TransferTransaction
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+
+    App\Domain\Transaction\DepositTransaction:
+        class: App\Domain\Transaction\DepositTransaction
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+
+    app.consumer.deposit_operation:
+        class: App\Consumer\Consumer
+        arguments:
+            - '@old_sound_rabbit_mq.delay_send_billing_producer'
+            - '@app.operation_factory'
+            - '@App\Domain\Transaction\DepositTransaction'
+            - '@logger'
+
+    app.consumer.debit_operation:
+        class: App\Consumer\Consumer
+        arguments:
+            - '@old_sound_rabbit_mq.delay_send_billing_producer'
+            - '@app.operation_factory'
+            - '@App\Domain\Transaction\DebitTransaction'
+            - '@logger'
+
+    app.consumer.transfer_operation:
+        class: App\Consumer\Consumer
+        arguments:
+            - '@old_sound_rabbit_mq.delay_send_billing_producer'
+            - '@app.operation_factory'
+            - '@App\Domain\Transaction\TransferTransaction'
+            - '@logger'
+
+    app.operation_factory:
+        class: App\Domain\Operation\OperationsFactory

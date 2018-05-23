@@ -2,14 +2,46 @@ old_sound_rabbit_mq:
     connections:
         default:
             url: '%env(RABBITMQ_URL)%'
-#    producers:
-#        # use 'old_sound_rabbit_mq.task_producer' service to send data.
-#        task:
-#            connection:       default
-#            exchange_options: { name: 'task', type: direct }
-#    consumers:
-#        task:
-#            connection:       default
-#            exchange_options: { name: 'task', type: direct }
-#            queue_options:    { name: 'task'}
-#            callback:         App\Consumer\TaskConsumer
+            vhost:    '/'
+            lazy:     false
+            connection_timeout: 3
+            read_write_timeout: 3
+            keepalive: false
+            heartbeat: 0
+    producers:
+        billing:
+            connection:       default
+            exchange_options: { name: 'billing', type: topic }
+        delay_send_billing:
+            connection: default
+            exchange_options: { name: 'billing_delayed', type: fanout }
+            queue_options:
+                name: billing_delayed
+                arguments:
+                    x-message-ttl: ['I', 3000]
+                    x-dead-letter-exchange: ['S', 'billing']
+    consumers:
+        billing_deposit:
+            connection:       default
+            exchange_options: { name: 'billing', type: topic }
+            queue_options:
+                name: billing_deposit
+                routing_keys:
+                    - 'deposit'
+            callback: app.consumer.deposit_operation
+        billing_debit:
+            connection:       default
+            exchange_options: { name: 'billing', type: topic }
+            queue_options:
+                name: billing_debit
+                routing_keys:
+                    - 'debit'
+            callback: app.consumer.debit_operation
+        billing_transfer:
+            connection:       default
+            exchange_options: { name: 'billing', type: topic }
+            queue_options:
+                name: billing_transfer
+                routing_keys:
+                    - 'transfer'
+            callback: app.consumer.transfer_operation

@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\DataFixtures;
+
 use App\Entity\Account;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+
 class AccountFixtures extends Fixture
 {
     public const COUNT_ACCOUNTS = 10;
