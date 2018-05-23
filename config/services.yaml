@@ -63,4 +63,4 @@ services:
             - '@logger'
 
     app.operation_factory:
-        class: App\Domain\Operation\OperationsFactory
+        class: App\Domain\Operation\OperationFactory
