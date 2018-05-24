@@ -33,8 +33,8 @@ class TransferTransactionTest extends AbstractTransaction
 
     public function dataForProcessTest(): \Generator
     {
+        yield 'Success' => [new Account(1, 200), 3, true];
         yield 'No account' => [null, 0, false];
         yield 'Not enough balance' => [new Account(1, 99), 0, false];
-        yield 'Success' => [new Account(1, 200), 3, true];
     }
 }

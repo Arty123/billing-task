@@ -3,10 +3,10 @@
 namespace App\Tests\Transaction;
 
 use App\Domain\Operation\OperationFactory;
-use App\Domain\Transaction\DebitTransaction;
+use App\Domain\Transaction\BlockTransaction;
 use App\Entity\Account;
 
-class DebitTransactionTest extends AbstractTransaction
+class BlockTransactionTest extends AbstractTransaction
 {
     /**
      * @dataProvider dataForProcessTest
@@ -20,11 +20,11 @@ class DebitTransactionTest extends AbstractTransaction
         $this->accountRepository->method('getAccountForUpdate')->willReturn($account);
         $this->em->expects($this->exactly($expectedPersistCount))->method('persist');
 
-        $debitTransaction = new DebitTransaction($this->em, $this->logger,  $this->transactionValidator, $this->accountingFactory);
+        $blockTransaction = new BlockTransaction($this->em, $this->logger,  $this->transactionValidator, $this->accountingFactory);
 
-        $testData = ['senderId' => 1, 'tid' => 'randomString', 'billingType' => 'debit', 'amount' => 100];
+        $testData = ['recipientId' => 1, 'tid' => 'randomString', 'billingType' => 'block', 'amount' => 100];
 
-        $result = $debitTransaction->process((new OperationFactory())->createOperation($testData));
+        $result = $blockTransaction->process((new OperationFactory())->createOperation($testData));
 
         $this->assertEquals($result, $actualResult);
     }
