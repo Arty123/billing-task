@@ -88,6 +88,11 @@ class AccountingTransaction
         return $this->amount;
     }
 
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
     public function markAsUnblock(): void
     {
         $this->type = 'inactive_block';

@@ -5,6 +5,7 @@ namespace App\Tests\Transaction;
 use App\Domain\Operation\OperationFactory;
 use App\Domain\Transaction\AccountingFactory;
 use App\Domain\Transaction\Validator\TransactionValidator;
+use App\Entity\AccountingTransaction;
 use App\Entity\Repository\AccountingTransactionRepository;
 use App\Entity\Repository\AccountRepository;
 use Doctrine\DBAL\Connection;
@@ -63,6 +64,10 @@ class AbstractTransaction extends TestCase
         $this->accountRepository = $this->getMockBuilder(AccountRepository::class)
             ->disableOriginalConstructor()
             ->setMethods(['getAccountForUpdate'])->getMock();
+
+        $this->accountingTransactionRepository = $this->getMockBuilder(AccountingTransaction::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getBlockedTransactions'])->getMock();
 
         $this->em = $this->getMockBuilder(EntityManagerInterface::class)->getMock();
         $this->em->method('getRepository')->willReturn($this->accountRepository);
