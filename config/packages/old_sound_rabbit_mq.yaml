@@ -45,3 +45,11 @@ old_sound_rabbit_mq:
                 routing_keys:
                     - 'block'
             callback: app.consumer.block_operation
+        billing_unblock:
+            connection:       default
+            exchange_options: { name: 'billing', type: topic }
+            queue_options:
+                name: billing_unblock
+                routing_keys:
+                    - 'unblock'
+            callback: app.consumer.unblock_operation

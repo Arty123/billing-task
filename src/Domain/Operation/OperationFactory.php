@@ -25,6 +25,9 @@ class OperationFactory
             case OperationConstant::BLOCK:
                 $operation = $this->createBlockOperation($data);
                 break;
+            case OperationConstant::UNBLOCK:
+                $operation = $this->createUnblockOperation($data);
+                break;
             default:
                 throw new \Exception('Can\'t resolve operation type');
         }
@@ -66,6 +69,17 @@ class OperationFactory
     }
 
     private function createBlockOperation(array $data): OperationInterface
+    {
+        return new Operation(
+            $data[OperationConstant::AMOUNT_INDEX_NAME],
+            $data[OperationConstant::TYPE_INDEX_NAME],
+            $data[OperationConstant::TID_INDEX_NAME],
+            null,
+            $data[OperationConstant::RECIPIENT_INDEX_NAME]
+        );
+    }
+
+    private function createUnblockOperation(array $data): OperationInterface
     {
         return new Operation(
             $data[OperationConstant::AMOUNT_INDEX_NAME],

@@ -70,5 +70,17 @@ class TestCommand extends ContainerAwareCommand
 
             $producer->publish(serialize($testData), OperationConstant::BLOCK);
         }
+
+        for ($i = 0; $i < 20; ++$i) {
+            $testData = [
+                OperationConstant::RECIPIENT_INDEX_NAME => rand(1, AccountFixtures::COUNT_ACCOUNTS),
+                OperationConstant::SENDER_INDEX_NAME => null,
+                OperationConstant::OPERATION_MSG_LABEL => OperationConstant::UNBLOCK,
+                OperationConstant::AMOUNT_INDEX_NAME => 10,
+                OperationConstant::TID_INDEX_NAME => uniqid('', true),
+            ];
+
+            $producer->publish(serialize($testData), OperationConstant::UNBLOCK);
+        }
     }
 }

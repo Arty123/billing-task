@@ -1,0 +1,27 @@
+<?php
+
+$finder = \PhpCsFixer\Finder::create()
+   ->in('src')
+;
+return \PhpCsFixer\Config::create()
+   ->setRules([
+       '@Symfony' => true,
+       '@PHP71Migration' => true,
+       'concat_space' => ['spacing' => 'one'],
+       'phpdoc_summary' => false,
+       'phpdoc_align' => false,
+       'no_short_echo_tag' => true,
+       'no_useless_else' => true,
+       'is_null' => true,
+       'no_multiline_whitespace_before_semicolons' => true,
+       'no_null_property_initialization' => true,
+       'list_syntax' => ['syntax' => 'short'],
+       'array_syntax' => ['syntax' => 'short'],
+       'php_unit_strict' => true,
+       'strict_comparison' => true,
+       'strict_param' => true,
+       'declare_strict_types' => true,
+       'yoda_style' => false,
+   ])
+   ->setFinder($finder)
+;

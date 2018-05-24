@@ -7,6 +7,5 @@
 ###< symfony/framework-bundle ###
 .idea
 .php_cs.cache
-.php_cs.dist
 php-cs-fixer-v2.phar
 phpstan.phar

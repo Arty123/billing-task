@@ -44,6 +44,12 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@logger'
 
+    App\Domain\Transaction\UnblockTransaction:
+      class: App\Domain\Transaction\UnblockTransaction
+      arguments:
+          - '@doctrine.orm.entity_manager'
+          - '@logger'
+
     app.consumer.deposit_operation:
         class: App\Consumer\Consumer
         arguments:
@@ -70,6 +76,13 @@ services:
         arguments:
             - '@app.operation_factory'
             - '@App\Domain\Transaction\BlockTransaction'
+            - '@logger'
+
+    app.consumer.unblock_operation:
+        class: App\Consumer\Consumer
+        arguments:
+            - '@app.operation_factory'
+            - '@App\Domain\Transaction\UnblockTransaction'
             - '@logger'
 
     app.operation_factory:

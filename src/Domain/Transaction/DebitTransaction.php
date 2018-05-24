@@ -7,7 +7,7 @@ namespace App\Domain\Transaction;
 use App\Domain\Operation\OperationInterface;
 use App\Entity\AccountingEntry;
 use App\Entity\AccountingTransaction;
-use App\Exception\NotEnoughBalance;
+use App\Exception\NotEnoughBalanceException;
 
 class DebitTransaction extends AbstractTransaction
 {
@@ -16,7 +16,7 @@ class DebitTransaction extends AbstractTransaction
         $senderAccount = $this->getAccount($operation->getSender());
 
         if ($senderAccount->getBalance() < $operation->getAmount()) {
-            throw new NotEnoughBalance('Account with userId = ' . $senderAccount->getUserId() . '  hasn\'t enough balance');
+            throw new NotEnoughBalanceException('Account with userId = ' . $senderAccount->getUserId() . '  hasn\'t enough balance');
         }
 
         $accountingTransaction = new AccountingTransaction(

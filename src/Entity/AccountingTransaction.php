@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 /**
  * @ORM\Entity
  * @ORM\Table(name="accounting_transaction", uniqueConstraints={@UniqueConstraint(name="transaction_id", columns={"tid"})})
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\AccountingTransactionRepository")
  */
 class AccountingTransaction
 {
@@ -43,7 +44,6 @@ class AccountingTransaction
 
     /**
      * @var Account|null
-
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="sender_id", referencedColumnName="user_id")
      */
@@ -51,7 +51,6 @@ class AccountingTransaction
 
     /**
      * @var Account|null
-
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(name="recipient_id", referencedColumnName="user_id")
      */
@@ -82,5 +81,15 @@ class AccountingTransaction
     public function getRecipient(): ?Account
     {
         return $this->recipient;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+
+    public function markAsUnblock(): void
+    {
+        $this->type = 'inactive_block';
     }
 }
