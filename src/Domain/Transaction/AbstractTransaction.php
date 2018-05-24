@@ -45,7 +45,7 @@ abstract class AbstractTransaction
         $this->accountingFactory = $accountingFactory;
     }
 
-    public function process(OperationInterface $operation): void
+    public function process(OperationInterface $operation): bool
     {
         $this->validator->validateTransaction($operation);
         $this->em->getConnection()->beginTransaction();
@@ -58,7 +58,11 @@ abstract class AbstractTransaction
         } catch (\Exception $e) {
             $this->em->getConnection()->rollBack();
             $this->logger->error($e->getMessage());
+
+            return false;
         }
+
+        return true;
     }
 
     abstract protected function transaction(OperationInterface $operation): void;
