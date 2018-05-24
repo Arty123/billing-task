@@ -48,4 +48,9 @@ abstract class AbstractTransaction
     {
         return $this->em->getRepository(Account::class)->getAccountForUpdate($userId);
     }
+
+    protected function getNegativeAmount(int $amount): int
+    {
+        return -$amount;
+    }
 }
