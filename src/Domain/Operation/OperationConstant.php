@@ -16,7 +16,6 @@ final class OperationConstant
 
     public const SENDER_INDEX_NAME = 'senderId';
     public const TYPE_INDEX_NAME = self::OPERATION_MSG_LABEL;
-    public const COUNT_INDEX_NAME = 'countQuery';
     public const RECIPIENT_INDEX_NAME = 'recipientId';
     public const TID_INDEX_NAME = 'tid';
     public const AMOUNT_INDEX_NAME = 'amount';

@@ -12,6 +12,14 @@ old_sound_rabbit_mq:
         billing:
             connection:       default
             exchange_options: { name: 'billing', type: topic }
+        delay_send_billing:
+            connection: default
+            exchange_options: { name: 'billing_delayed', type: fanout }
+            queue_options:
+                name: billing_delayed
+                arguments:
+                    x-message-ttl: ['I', 3000]
+                    x-dead-letter-exchange: ['S', 'billing']
     consumers:
         billing_deposit:
             connection:       default

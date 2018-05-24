@@ -56,6 +56,7 @@ services:
             - '@app.operation_factory'
             - '@App\Domain\Transaction\DepositTransaction'
             - '@logger'
+            - '@old_sound_rabbit_mq.delay_send_billing_producer'
 
     app.consumer.debit_operation:
         class: App\Consumer\Consumer
@@ -63,6 +64,7 @@ services:
             - '@app.operation_factory'
             - '@App\Domain\Transaction\DebitTransaction'
             - '@logger'
+            - '@old_sound_rabbit_mq.delay_send_billing_producer'
 
     app.consumer.transfer_operation:
         class: App\Consumer\Consumer
@@ -70,6 +72,7 @@ services:
             - '@app.operation_factory'
             - '@App\Domain\Transaction\TransferTransaction'
             - '@logger'
+            - '@old_sound_rabbit_mq.delay_send_billing_producer'
 
     app.consumer.block_operation:
         class: App\Consumer\Consumer
@@ -77,6 +80,7 @@ services:
             - '@app.operation_factory'
             - '@App\Domain\Transaction\BlockTransaction'
             - '@logger'
+            - '@old_sound_rabbit_mq.delay_send_billing_producer'
 
     app.consumer.unblock_operation:
         class: App\Consumer\Consumer
@@ -84,6 +88,7 @@ services:
             - '@app.operation_factory'
             - '@App\Domain\Transaction\UnblockTransaction'
             - '@logger'
+            - '@old_sound_rabbit_mq.delay_send_billing_producer'
 
     app.operation_factory:
         class: App\Domain\Operation\OperationFactory
