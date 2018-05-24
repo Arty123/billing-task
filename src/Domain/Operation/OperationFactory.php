@@ -22,6 +22,9 @@ class OperationFactory
             case OperationConstant::TRANSFER:
                 $operation = $this->createTransferOperation($data);
                 break;
+            case OperationConstant::BLOCK:
+                $operation = $this->createBlockOperation($data);
+                break;
             default:
                 throw new \Exception('Can\'t resolve operation type');
         }
@@ -59,6 +62,17 @@ class OperationFactory
             $data[OperationConstant::TID_INDEX_NAME],
             $data[OperationConstant::SENDER_INDEX_NAME],
             null
+        );
+    }
+
+    private function createBlockOperation(array $data): OperationInterface
+    {
+        return new Operation(
+            $data[OperationConstant::AMOUNT_INDEX_NAME],
+            $data[OperationConstant::TYPE_INDEX_NAME],
+            $data[OperationConstant::TID_INDEX_NAME],
+            null,
+            $data[OperationConstant::RECIPIENT_INDEX_NAME]
         );
     }
 }

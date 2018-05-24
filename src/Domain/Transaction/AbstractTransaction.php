@@ -35,7 +35,7 @@ abstract class AbstractTransaction
         $this->validator = $validator;
     }
 
-    public function process(OperationInterface $operation)
+    public function process(OperationInterface $operation): void
     {
         $this->validator->validateTransaction($operation);
         $this->em->getConnection()->beginTransaction();
@@ -53,7 +53,7 @@ abstract class AbstractTransaction
 
     abstract protected function transaction(OperationInterface $operation): void;
 
-    protected function getAccount($userId): Account
+    protected function getAccount(int $userId): Account
     {
         $account = $this->em->getRepository(Account::class)->getAccountForUpdate($userId);
 

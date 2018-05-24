@@ -37,3 +37,11 @@ old_sound_rabbit_mq:
                 routing_keys:
                     - 'transfer'
             callback: app.consumer.transfer_operation
+        billing_block:
+            connection:       default
+            exchange_options: { name: 'billing', type: topic }
+            queue_options:
+                name: billing_block
+                routing_keys:
+                    - 'block'
+            callback: app.consumer.block_operation

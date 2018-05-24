@@ -29,7 +29,7 @@ class TestCommand extends ContainerAwareCommand
                 OperationConstant::AMOUNT_INDEX_NAME => 1000,
             ];
 
-            $producer->publish(serialize($testData), $testData[OperationConstant::OPERATION_MSG_LABEL]);
+            $producer->publish(serialize($testData), OperationConstant::DEPOSIT);
         }
 
         $firstHalfAccounts = AccountFixtures::COUNT_ACCOUNTS / 2;
@@ -44,7 +44,7 @@ class TestCommand extends ContainerAwareCommand
                 OperationConstant::AMOUNT_INDEX_NAME => 10,
             ];
 
-            $producer->publish(serialize($testData), $testData[OperationConstant::OPERATION_MSG_LABEL]);
+            $producer->publish(serialize($testData), OperationConstant::DEBIT);
         }
 
         for ($i = 0; $i < 20; ++$i) {
@@ -56,7 +56,19 @@ class TestCommand extends ContainerAwareCommand
                 OperationConstant::TID_INDEX_NAME => uniqid('', true),
             ];
 
-            $producer->publish(serialize($testData), $testData[OperationConstant::OPERATION_MSG_LABEL]);
+            $producer->publish(serialize($testData), OperationConstant::TRANSFER);
+        }
+
+        for ($i = 0; $i < 20; ++$i) {
+            $testData = [
+                OperationConstant::RECIPIENT_INDEX_NAME => rand(1, AccountFixtures::COUNT_ACCOUNTS),
+                OperationConstant::SENDER_INDEX_NAME => null,
+                OperationConstant::OPERATION_MSG_LABEL => OperationConstant::BLOCK,
+                OperationConstant::AMOUNT_INDEX_NAME => 10,
+                OperationConstant::TID_INDEX_NAME => uniqid('', true),
+            ];
+
+            $producer->publish(serialize($testData), OperationConstant::BLOCK);
         }
     }
 }

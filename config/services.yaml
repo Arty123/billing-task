@@ -38,6 +38,12 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@logger'
 
+    App\Domain\Transaction\BlockTransaction:
+        class: App\Domain\Transaction\BlockTransaction
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+
     app.consumer.deposit_operation:
         class: App\Consumer\Consumer
         arguments:
@@ -57,6 +63,13 @@ services:
         arguments:
             - '@app.operation_factory'
             - '@App\Domain\Transaction\TransferTransaction'
+            - '@logger'
+
+    app.consumer.block_operation:
+        class: App\Consumer\Consumer
+        arguments:
+            - '@app.operation_factory'
+            - '@App\Domain\Transaction\BlockTransaction'
             - '@logger'
 
     app.operation_factory:
