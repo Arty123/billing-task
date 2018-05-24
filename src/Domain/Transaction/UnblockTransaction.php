@@ -26,9 +26,8 @@ class UnblockTransaction extends AbstractTransaction
             $transaction->markAsUnblock();
         }
 
-        var_dump($operation);
         $unblockOperation = new UnblockOperationDecorator($operation, $sumOfBlockedTransactions);
-        var_dump($unblockOperation);
+
         $accountingTransaction = $this->accountingFactory
             ->createAccountingTransaction($unblockOperation, null, $recipientAccount);
 
