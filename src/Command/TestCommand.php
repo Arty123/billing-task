@@ -12,6 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class TestCommand extends ContainerAwareCommand
 {
+    private const COUNT_OF_OPERATIONS = 5;
+
     protected function configure()
     {
         $this->setName('app:test-consumer');
@@ -21,7 +23,7 @@ class TestCommand extends ContainerAwareCommand
     {
         $producer = $this->getContainer()->get('old_sound_rabbit_mq.billing_producer');
 
-        for ($i = 0; $i < 20; ++$i) {
+        for ($i = 0; $i < self::COUNT_OF_OPERATIONS; ++$i) {
             $testData = [
                 OperationConstant::RECIPIENT_INDEX_NAME => rand(1, AccountFixtures::COUNT_ACCOUNTS),
                 OperationConstant::OPERATION_MSG_LABEL => OperationConstant::DEPOSIT,
@@ -35,7 +37,7 @@ class TestCommand extends ContainerAwareCommand
         $firstHalfAccounts = AccountFixtures::COUNT_ACCOUNTS / 2;
         $secondHalfAccounts = $firstHalfAccounts + 1;
 
-        for ($i = 0; $i < 20; ++$i) {
+        for ($i = 0; $i < self::COUNT_OF_OPERATIONS; ++$i) {
             $testData = [
                 OperationConstant::RECIPIENT_INDEX_NAME => rand(1, $firstHalfAccounts),
                 OperationConstant::SENDER_INDEX_NAME => rand($secondHalfAccounts, AccountFixtures::COUNT_ACCOUNTS),
@@ -47,7 +49,7 @@ class TestCommand extends ContainerAwareCommand
             $producer->publish(serialize($testData), OperationConstant::DEBIT);
         }
 
-        for ($i = 0; $i < 20; ++$i) {
+        for ($i = 0; $i < self::COUNT_OF_OPERATIONS; ++$i) {
             $testData = [
                 OperationConstant::RECIPIENT_INDEX_NAME => rand($secondHalfAccounts, AccountFixtures::COUNT_ACCOUNTS),
                 OperationConstant::SENDER_INDEX_NAME => rand(1, $firstHalfAccounts),
@@ -59,7 +61,7 @@ class TestCommand extends ContainerAwareCommand
             $producer->publish(serialize($testData), OperationConstant::TRANSFER);
         }
 
-        for ($i = 0; $i < 20; ++$i) {
+        for ($i = 0; $i < self::COUNT_OF_OPERATIONS; ++$i) {
             $testData = [
                 OperationConstant::RECIPIENT_INDEX_NAME => rand(1, AccountFixtures::COUNT_ACCOUNTS),
                 OperationConstant::SENDER_INDEX_NAME => null,
@@ -71,7 +73,7 @@ class TestCommand extends ContainerAwareCommand
             $producer->publish(serialize($testData), OperationConstant::BLOCK);
         }
 
-        for ($i = 0; $i < 20; ++$i) {
+        for ($i = 0; $i < self::COUNT_OF_OPERATIONS; ++$i) {
             $testData = [
                 OperationConstant::RECIPIENT_INDEX_NAME => rand(1, AccountFixtures::COUNT_ACCOUNTS),
                 OperationConstant::SENDER_INDEX_NAME => null,
