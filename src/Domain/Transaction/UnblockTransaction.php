@@ -20,21 +20,21 @@ class UnblockTransaction extends AbstractTransaction
         if ($operation->getAmount() > $sumOfBlockedTransactions) {
             throw new UnblockAmountException('Trying to unblock amount greater than it was blocked before');
         }
-//
-//        /** @var AccountingTransaction $transaction */
-//        foreach ($blockedTransactions as $transaction) {
-//            $transaction->markAsUnblock();
-//        }
-//
-//        $unblockOperation = new UnblockOperationDecorator($operation, $sumOfBlockedTransactions);
-//
-//        $accountingTransaction = $this->accountingFactory
-//            ->createAccountingTransaction($unblockOperation, null, $recipientAccount);
-//
-//        $accountingEntry = $this->accountingFactory
-//            ->createAccountingEntry($recipientAccount, $accountingTransaction, $sumOfBlockedTransactions);
-//
-//        $recipientAccount->calculateBalance($sumOfBlockedTransactions);
+
+        /** @var AccountingTransaction $transaction */
+        foreach ($blockedTransactions as $transaction) {
+            $transaction->markAsUnblock();
+        }
+
+        $unblockOperation = new UnblockOperationDecorator($operation, $sumOfBlockedTransactions);
+
+        $accountingTransaction = $this->accountingFactory
+            ->createAccountingTransaction($unblockOperation, null, $recipientAccount);
+
+        $accountingEntry = $this->accountingFactory
+            ->createAccountingEntry($recipientAccount, $accountingTransaction, $sumOfBlockedTransactions);
+
+        $recipientAccount->calculateBalance($sumOfBlockedTransactions);
 
         $this->em->persist($accountingTransaction);
         $this->em->persist($accountingEntry);
