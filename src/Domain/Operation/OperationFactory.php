@@ -32,32 +32,32 @@ class OperationFactory
     private function createTransferOperation(array $data): OperationInterface
     {
         return new Operation(
-            $data[OperationInterface::AMOUNT_INDEX_NAME],
-            $data[OperationInterface::TYPE_INDEX_NAME],
-            $data[OperationInterface::TID_INDEX_NAME],
-            $data[OperationInterface::SENDER_INDEX_NAME],
-            $data[OperationInterface::RECIPIENT_INDEX_NAME]
+            $data[OperationConstant::AMOUNT_INDEX_NAME],
+            $data[OperationConstant::TYPE_INDEX_NAME],
+            $data[OperationConstant::TID_INDEX_NAME],
+            $data[OperationConstant::SENDER_INDEX_NAME],
+            $data[OperationConstant::RECIPIENT_INDEX_NAME]
         );
     }
 
     private function createDepositOperation(array $data): OperationInterface
     {
         return new Operation(
-            $data[OperationInterface::AMOUNT_INDEX_NAME],
-            $data[OperationInterface::TYPE_INDEX_NAME],
-            $data[OperationInterface::TID_INDEX_NAME],
+            $data[OperationConstant::AMOUNT_INDEX_NAME],
+            $data[OperationConstant::TYPE_INDEX_NAME],
+            $data[OperationConstant::TID_INDEX_NAME],
             null,
-            $data[OperationInterface::RECIPIENT_INDEX_NAME]
+            $data[OperationConstant::RECIPIENT_INDEX_NAME]
         );
     }
 
     private function createDebitOperation(array $data): OperationInterface
     {
         return new Operation(
-            $data[OperationInterface::AMOUNT_INDEX_NAME],
-            $data[OperationInterface::TYPE_INDEX_NAME],
-            $data[OperationInterface::TID_INDEX_NAME],
-            $data[OperationInterface::SENDER_INDEX_NAME],
+            $data[OperationConstant::AMOUNT_INDEX_NAME],
+            $data[OperationConstant::TYPE_INDEX_NAME],
+            $data[OperationConstant::TID_INDEX_NAME],
+            $data[OperationConstant::SENDER_INDEX_NAME],
             null
         );
     }
