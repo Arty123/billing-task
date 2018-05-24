@@ -32,7 +32,7 @@ class TransferTransaction extends AbstractTransaction
         $accountingEntrySender = new AccountingEntry(
             $senderAccount,
             $accountingTransaction,
-            -$operation->getAmount()
+            $this->getNegativeAmount($operation->getAmount())
         );
         $senderAccount->calculateBalance($accountingEntrySender->getAmount());
 

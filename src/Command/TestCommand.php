@@ -14,22 +14,22 @@ class TestCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this
-            ->setName('app:test-consumer');
+        $this->setName('app:test-consumer');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $producer = $this->getContainer()->get('old_sound_rabbit_mq.billing_producer');
+
         for ($i = 0; $i < 20; ++$i) {
             $testData = [
-                'recipientId' => rand(1, AccountFixtures::COUNT_ACCOUNTS),
+                OperationConstant::RECIPIENT_INDEX_NAME => rand(1, AccountFixtures::COUNT_ACCOUNTS),
                 OperationConstant::OPERATION_MSG_LABEL => OperationConstant::DEPOSIT,
-                'tid' => uniqid('', true),
-                'amount' => 1000,
+                OperationConstant::TID_INDEX_NAME => uniqid('', true),
+                OperationConstant::AMOUNT_INDEX_NAME => 1000,
             ];
-            $this->getContainer()
-                ->get('old_sound_rabbit_mq.billing_producer')
-                ->publish(serialize($testData), $testData[OperationConstant::OPERATION_MSG_LABEL]);
+
+            $producer->publish(serialize($testData), $testData[OperationConstant::OPERATION_MSG_LABEL]);
         }
 
         $firstHalfAccounts = AccountFixtures::COUNT_ACCOUNTS / 2;
@@ -37,28 +37,26 @@ class TestCommand extends ContainerAwareCommand
 
         for ($i = 0; $i < 20; ++$i) {
             $testData = [
-                'recipientId' => rand(1, $firstHalfAccounts),
-                'senderId' => rand($secondHalfAccounts, AccountFixtures::COUNT_ACCOUNTS),
+                OperationConstant::RECIPIENT_INDEX_NAME => rand(1, $firstHalfAccounts),
+                OperationConstant::SENDER_INDEX_NAME => rand($secondHalfAccounts, AccountFixtures::COUNT_ACCOUNTS),
                 OperationConstant::OPERATION_MSG_LABEL => OperationConstant::DEBIT,
-                'tid' => uniqid('', true),
-                'amount' => 10,
+                OperationConstant::TID_INDEX_NAME => uniqid('', true),
+                OperationConstant::AMOUNT_INDEX_NAME => 10,
             ];
-            $this->getContainer()
-                ->get('old_sound_rabbit_mq.billing_producer')
-                ->publish(serialize($testData), $testData[OperationConstant::OPERATION_MSG_LABEL]);
+
+            $producer->publish(serialize($testData), $testData[OperationConstant::OPERATION_MSG_LABEL]);
         }
 
         for ($i = 0; $i < 20; ++$i) {
             $testData = [
-                'recipientId' => rand($secondHalfAccounts, AccountFixtures::COUNT_ACCOUNTS),
-                'senderId' => rand(1, $firstHalfAccounts),
+                OperationConstant::RECIPIENT_INDEX_NAME => rand($secondHalfAccounts, AccountFixtures::COUNT_ACCOUNTS),
+                OperationConstant::SENDER_INDEX_NAME => rand(1, $firstHalfAccounts),
                 OperationConstant::OPERATION_MSG_LABEL => OperationConstant::TRANSFER,
-                'amount' => 10,
-                'tid' => uniqid('', true),
+                OperationConstant::AMOUNT_INDEX_NAME => 10,
+                OperationConstant::TID_INDEX_NAME => uniqid('', true),
             ];
-            $this->getContainer()
-                ->get('old_sound_rabbit_mq.billing_producer')
-                ->publish(serialize($testData), $testData[OperationConstant::OPERATION_MSG_LABEL]);
+
+            $producer->publish(serialize($testData), $testData[OperationConstant::OPERATION_MSG_LABEL]);
         }
     }
 }

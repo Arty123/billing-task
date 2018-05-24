@@ -30,7 +30,7 @@ class DebitTransaction extends AbstractTransaction
         $accountingEntry = new AccountingEntry(
             $senderAccount,
             $accountingTransaction,
-            -$operation->getAmount()
+            $this->getNegativeAmount($operation->getAmount())
         );
 
         $senderAccount->calculateBalance($accountingEntry->getAmount());
