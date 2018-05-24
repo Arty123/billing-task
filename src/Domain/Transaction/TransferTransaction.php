@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Transaction;
 
 use App\Domain\Operation\OperationInterface;
-use App\Entity\AccountingEntry;
-use App\Entity\AccountingTransaction;
 use App\Exception\NotEnoughBalanceException;
 
 class TransferTransaction extends AbstractTransaction
@@ -21,25 +19,15 @@ class TransferTransaction extends AbstractTransaction
 
         $recipientAccount = $this->getAccount($operation->getRecipient());
 
-        $accountingTransaction = new AccountingTransaction(
-            $operation->getType(),
-            $operation->getAmount(),
-            $operation->getTid(),
-            $senderAccount,
-            $recipientAccount
-        );
+        $accountingTransaction = $this->accountingFactory
+            ->createAccountingTransaction($operation, $senderAccount, $recipientAccount);
 
-        $accountingEntrySender = new AccountingEntry(
-            $senderAccount,
-            $accountingTransaction,
-            $this->getNegativeAmount($operation->getAmount())
-        );
+        $accountingEntrySender = $this->accountingFactory
+            ->createAccountingEntry($senderAccount, $accountingTransaction, $this->getNegativeAmount($operation->getAmount()));
         $senderAccount->calculateBalance($accountingEntrySender->getAmount());
 
-        $accountingEntryRecipient = new AccountingEntry(
-            $recipientAccount,
-            $accountingTransaction,
-            $operation->getAmount());
+        $accountingEntryRecipient = $this->accountingFactory
+            ->createAccountingEntry($recipientAccount, $accountingTransaction, $operation->getAmount());
         $recipientAccount->calculateBalance($accountingEntryRecipient->getAmount());
 
         $this->em->persist($accountingTransaction);

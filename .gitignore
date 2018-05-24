@@ -9,3 +9,7 @@
 .php_cs.cache
 php-cs-fixer-v2.phar
 phpstan.phar
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###

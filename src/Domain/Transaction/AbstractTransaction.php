@@ -19,6 +19,11 @@ abstract class AbstractTransaction
     protected $em;
 
     /**
+     * @var AccountingFactory
+     */
+    protected $accountingFactory;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -28,11 +33,16 @@ abstract class AbstractTransaction
      */
     private $validator;
 
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, TransactionValidator $validator)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        LoggerInterface $logger,
+        TransactionValidator $validator,
+        AccountingFactory $accountingFactory
+    ) {
         $this->em = $em;
         $this->logger = $logger;
         $this->validator = $validator;
+        $this->accountingFactory = $accountingFactory;
     }
 
     public function process(OperationInterface $operation): void

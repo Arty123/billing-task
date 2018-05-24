@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Transaction;
 
+use App\Domain\Operation\Decorator\UnblockOperationDecorator;
 use App\Domain\Operation\OperationInterface;
-use App\Entity\AccountingEntry;
 use App\Entity\AccountingTransaction;
 use App\Exception\UnblockAmountException;
 
@@ -26,19 +26,14 @@ class UnblockTransaction extends AbstractTransaction
             $transaction->markAsUnblock();
         }
 
-        $accountingTransaction = new AccountingTransaction(
-            $operation->getType(),
-            $sumOfBlockedTransactions,
-            $operation->getTid(),
-            null,
-            $recipientAccount
-        );
+        var_dump($operation);
+        $unblockOperation = new UnblockOperationDecorator($operation, $sumOfBlockedTransactions);
+        var_dump($unblockOperation);
+        $accountingTransaction = $this->accountingFactory
+            ->createAccountingTransaction($unblockOperation, null, $recipientAccount);
 
-        $accountingEntry = new AccountingEntry(
-            $recipientAccount,
-            $accountingTransaction,
-            $sumOfBlockedTransactions
-        );
+        $accountingEntry = $this->accountingFactory
+            ->createAccountingEntry($recipientAccount, $accountingTransaction, $sumOfBlockedTransactions);
 
         $recipientAccount->calculateBalance($sumOfBlockedTransactions);
 

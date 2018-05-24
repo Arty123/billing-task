@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Transaction;
 
 use App\Domain\Operation\OperationInterface;
-use App\Entity\AccountingEntry;
-use App\Entity\AccountingTransaction;
 
 class BlockTransaction extends AbstractTransaction
 {
@@ -14,19 +12,11 @@ class BlockTransaction extends AbstractTransaction
     {
         $recipientAccount = $this->getAccount($operation->getRecipient());
 
-        $accountingTransaction = new AccountingTransaction(
-            $operation->getType(),
-            $operation->getAmount(),
-            $operation->getTid(),
-            null,
-            $recipientAccount
-        );
+        $accountingTransaction = $this->accountingFactory
+            ->createAccountingTransaction($operation, null, $recipientAccount);
 
-        $accountingEntry = new AccountingEntry(
-            $recipientAccount,
-            $accountingTransaction,
-            $this->getNegativeAmount($operation->getAmount())
-        );
+        $accountingEntry = $this->accountingFactory
+            ->createAccountingEntry($recipientAccount, $accountingTransaction, $this->getNegativeAmount($operation->getAmount()));
 
         $recipientAccount->calculateBalance($accountingEntry->getAmount());
 
