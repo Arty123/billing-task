@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class TestCommand extends ContainerAwareCommand
 {
-    private const COUNT_OF_OPERATIONS = 5;
+    private const COUNT_OF_OPERATIONS = 20;
 
     protected function configure()
     {
@@ -26,6 +26,7 @@ class TestCommand extends ContainerAwareCommand
         for ($i = 0; $i < self::COUNT_OF_OPERATIONS; ++$i) {
             $testData = [
                 OperationConstant::RECIPIENT_INDEX_NAME => rand(1, AccountFixtures::COUNT_ACCOUNTS),
+                OperationConstant::SENDER_INDEX_NAME => null,
                 OperationConstant::OPERATION_MSG_LABEL => OperationConstant::DEPOSIT,
                 OperationConstant::TID_INDEX_NAME => uniqid('', true),
                 OperationConstant::AMOUNT_INDEX_NAME => 1000,

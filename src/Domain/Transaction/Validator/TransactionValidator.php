@@ -8,6 +8,7 @@ use App\Domain\Operation\OperationInterface;
 use App\Entity\AccountingTransaction;
 use App\Entity\TransactionType;
 use App\Exception\DuplicateTransactionIdException;
+use App\Exception\NotAllowedTransactionException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TransactionValidator
@@ -37,12 +38,12 @@ class TransactionValidator
 
     public function validateTransactionType(OperationInterface $operation): bool
     {
-        $transaction = $this->em
+        $transactionType = $this->em
             ->getRepository(TransactionType::class)
             ->findOneBy(['name' => $operation->getType()]);
 
-        if ($transaction) {
-            throw new DuplicateTransactionIdException('Not allowed transaction with name '. $operation->getType());
+        if (!$transactionType) {
+            throw new NotAllowedTransactionException('Not allowed transaction with name ' . $operation->getType());
         }
 
         return true;
