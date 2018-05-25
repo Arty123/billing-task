@@ -10,7 +10,7 @@ use App\Validator\Constraints\IntegerNullConstraint;
 class IntegerNull extends Constraint
 {
     /**
-     * Check that value is integer or is null
+     * Check that value is integer or null
      *
      * @param mixed $value
      * @param Constraint|IntegerNullConstraint $constraint
