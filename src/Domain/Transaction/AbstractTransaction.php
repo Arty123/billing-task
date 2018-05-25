@@ -48,6 +48,7 @@ abstract class AbstractTransaction
     public function process(OperationInterface $operation): bool
     {
         $this->validator->validateTransaction($operation);
+        $this->validator->validateTransactionType($operation);
         $this->em->getConnection()->beginTransaction();
 
         try {

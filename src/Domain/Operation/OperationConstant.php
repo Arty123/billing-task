@@ -13,6 +13,16 @@ final class OperationConstant
     public const TRANSFER = 'transfer';
     public const BLOCK = 'block';
     public const UNBLOCK = 'unblock';
+    public const INACTIVE_BLOCK = 'inactive_block';
+
+    public const TYPES = [
+       self::DEPOSIT,
+       self::DEBIT,
+       self::TRANSFER,
+       self::BLOCK,
+       self::UNBLOCK,
+       self::INACTIVE_BLOCK,
+    ];
 
     public const SENDER_INDEX_NAME = 'senderId';
     public const TYPE_INDEX_NAME = self::OPERATION_MSG_LABEL;
