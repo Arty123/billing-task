@@ -22,7 +22,7 @@ class BlockTransactionTest extends AbstractTransaction
 
         $blockTransaction = new BlockTransaction($this->em, $this->logger,  $this->transactionValidator, $this->accountingFactory);
 
-        $testData = ['recipientId' => 1, 'tid' => 'randomString', 'billingType' => 'block', 'amount' => 100];
+        $testData = ['recipientId' => 1, 'senderId' => null, 'tid' => 'randomString', 'billingType' => 'block', 'amount' => 100];
 
         $result = $blockTransaction->process((new OperationFactory())->createOperation($testData));
 

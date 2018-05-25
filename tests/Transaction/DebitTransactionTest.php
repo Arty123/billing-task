@@ -22,7 +22,7 @@ class DebitTransactionTest extends AbstractTransaction
 
         $debitTransaction = new DebitTransaction($this->em, $this->logger,  $this->transactionValidator, $this->accountingFactory);
 
-        $testData = ['senderId' => 1, 'tid' => 'randomString', 'billingType' => 'debit', 'amount' => 100];
+        $testData = ['senderId' => 1, 'recipientId' => 1, 'tid' => 'randomString', 'billingType' => 'debit', 'amount' => 100];
 
         $result = $debitTransaction->process((new OperationFactory())->createOperation($testData));
 

@@ -23,7 +23,7 @@ class DepositTransactionTest extends AbstractTransaction
 
         $depositTransaction = new DepositTransaction($this->em, $this->logger,  $this->transactionValidator, $this->accountingFactory);
 
-        $testData = ['recipientId' => 1, 'tid' => 'randomString', 'billingType' => 'deposit', 'amount' => 100];
+        $testData = ['senderId' => null, 'recipientId' => 1, 'tid' => 'randomString', 'billingType' => 'deposit', 'amount' => 100];
 
         $result = $depositTransaction->process((new OperationFactory())->createOperation($testData));
 

@@ -1,0 +1,8 @@
+operation.amount.not_blank: Amount should be not blank.
+operation.amount.integer: Amount should be integer.
+
+operation.type.not_blank: Transaction type should be not blank.
+operation.type.string: Transaction type should be string.
+
+operation.tid.not_blank: Transaction index should be not blank.
+operation.tid.string: Transaction index should be string.
